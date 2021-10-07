@@ -2,7 +2,8 @@
 # -*- coding:utf-8 -*-
 
 import socket
-from datetime import datetime, date, time
+import time
+from datetime import datetime
 
 host = '127.0.0.1'
 port = 9999
@@ -21,10 +22,20 @@ while i < 3:
 
     clientsocket.send('Input message?'.encode('utf-8'))
 
-    client_message = clientsocket.recv(1024).decode('utf-8')
+    count_recieved = client_message = clientsocket.recv(1024).decode('utf-8')
     current_time = datetime.now().strftime("%A, %d. %B %Y %I:%M%p")
 
     print('[' + current_time + '] :' + client_message)
-    clientsocket.close()
+
+    time.sleep(5)
+
+    current_time = datetime.now().strftime("%A, %d. %B %Y %I:%M%p")
+    print('[' + current_time + '] Sended back to the client!')
+
+    count_responsed = clientsocket.send(client_message.encode('utf-8'))
+
+    if count_recieved == count_responsed:
+        clientsocket.close()
+
     print('\n')
     i += 1

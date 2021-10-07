@@ -12,17 +12,17 @@ def main():
 
     serversocket.connect((host, port))
 
-    server_responve = serversocket.recv(1024)
+    server_responсe = serversocket.recv(1024)
 
-    if server_responve.decode('utf-8') == '-1+3$5%1':
-        serversocket.close()
-        return
-
-    print(server_responve.decode('utf-8'))
+    print(server_responсe.decode('utf-8'))
 
     a = input()
 
     serversocket.send(a.encode('utf-8'))
+
+    server_responсe = serversocket.recv(1024)
+
+    print(server_responсe.decode('utf-8'))
 
 
 if __name__ == '__main__':
