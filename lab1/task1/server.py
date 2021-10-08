@@ -20,22 +20,30 @@ while i < 3:
 
     clientsocket, addr = serversocket.accept()
 
-    clientsocket.send('Input message?'.encode('utf-8'))
+    print("Connected!")
 
-    count_recieved = client_message = clientsocket.recv(1024).decode('utf-8')
-    current_time = datetime.now().strftime("%A, %d. %B %Y %I:%M%p")
+    client_message = ''
 
-    print('[' + current_time + '] :' + client_message)
+    while True:
 
-    time.sleep(5)
+        message = 'Input message: (input "/stop" to close connection)'
+        clientsocket.send(message.encode('utf-8'))
 
-    current_time = datetime.now().strftime("%A, %d. %B %Y %I:%M%p")
-    print('[' + current_time + '] Sended back to the client!')
+        client_message = clientsocket.recv(1024).decode('utf-8')
+        current_time = datetime.now().strftime("%A, %d. %B %Y %I:%M%p")
 
-    count_responsed = clientsocket.send(client_message.encode('utf-8'))
+        print('[' + current_time + '] :' + client_message)
 
-    if count_recieved == count_responsed:
-        clientsocket.close()
+        current_time = datetime.now().strftime("%A, %d. %B %Y %I:%M%p")
+
+        if client_message == '/stop':
+            break
+        else:
+            time.sleep(5)
+            clientsocket.send(client_message.encode('utf-8'))
+            print('[' + current_time + '] :' + client_message)
+
+    clientsocket.close()
 
     print('\n')
     i += 1
