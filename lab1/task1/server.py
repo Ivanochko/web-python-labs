@@ -2,7 +2,8 @@
 # -*- coding:utf-8 -*-
 
 import socket
-from datetime import date
+import time
+from datetime import datetime
 
 host = '127.0.0.1'
 port = 9999
@@ -18,14 +19,31 @@ while i < 3:
     print('Server is waiting!\n')
 
     clientsocket, addr = serversocket.accept()
-    print('Got a connection from {}'.format(addr))
 
-    clientsocket.send('Input message?'.encode('utf-8'))
+    print("Connected!")
 
-    client_message = clientsocket.recv(1024).decode('utf-8')
-    current_time = date.today().strftime("%A, %d. %B %Y %I:%M%p")
+    client_message = ''
 
-    print('[' + current_time + '] :' + client_message)
+    while True:
+
+        message = 'Input message: (input "/stop" to close connection)'
+        clientsocket.send(message.encode('utf-8'))
+
+        client_message = clientsocket.recv(1024).decode('utf-8')
+        current_time = datetime.now().strftime("%A, %d. %B %Y %I:%M%p")
+
+        print('[' + current_time + '] :' + client_message)
+
+        current_time = datetime.now().strftime("%A, %d. %B %Y %I:%M%p")
+
+        if client_message == '/stop':
+            break
+        else:
+            time.sleep(5)
+            clientsocket.send(client_message.encode('utf-8'))
+            print('[' + current_time + '] :' + client_message)
+
     clientsocket.close()
+
     print('\n')
     i += 1
