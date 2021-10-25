@@ -18,5 +18,6 @@ class App:
         return {
             "/": "Home",
             "/about": "About me",
-            "/achievements": "Achievements"
+            "/achievements": "Achievements",
+            "/form": "Form"
         }
