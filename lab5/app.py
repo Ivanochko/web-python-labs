@@ -20,5 +20,5 @@ class App:
             "/about": "About me",
             "/achievements": "Achievements",
             "/form": "Form",
-            "/form_user": "Form_Second"
+            "/form_second": "Form_Second"
         }
