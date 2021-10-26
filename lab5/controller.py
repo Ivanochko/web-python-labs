@@ -10,6 +10,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SelectField
 from wtforms.validators import InputRequired, Length, AnyOf, Regexp, EqualTo
 
+import json
+
 app = App().getApp()
 
 REPORT_MESS = '<h1>The username is {}. The password is {}</h1>'
@@ -60,6 +62,21 @@ class LoginFormSecond(FlaskForm):
     d_f_e_number = StringField('Number *')
 
 
+def writeToFile(form: LoginFormSecond):
+    login = form.login.data
+    data = {
+        "login": login,
+        "password": form.password.data,
+        "Examenation list number": form.e_l_number.data,
+        "Examenation list PIN": form.e_l_pin.data,
+        "Examenation list year": form.e_l_year.data,
+        "Document education series": form.d_f_e_series.data,
+        "Document education number": form.d_f_e_number.data
+    }
+    with open(login + '.json', 'w') as outfile:
+        json.dump(data, outfile)
+
+
 @app.route('/form_second', methods=['GET', 'POST'])
 def form_second():
     form = LoginFormSecond()
@@ -84,6 +101,7 @@ def form_second():
                                                message=LENGTH.format(lengthForSerion))]
 
     if form.validate_on_submit():
+        writeToFile(form)
         return render_template("result.html",
                                form=form,
                                menu=App.getMenu())
