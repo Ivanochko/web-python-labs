@@ -21,12 +21,12 @@ def register():
     if form.validate_on_submit():
         new_user = User(username=form.username.data,
                         email=form.email.data,
-                        password=bcrypt.generate_password_hash(str(form.password.data)))
+                        password=form.password.data)
         db.session.add(new_user)
         db.session.commit()
         flash(f'Account created for {form.username.data} !',
               category='success')
-        return redirect(url_for('login'))
+        return redirect(url_for('auth.login'))
     return render_template('auth/register.html', form=form, menu=App.getMenu())
 
 
@@ -37,12 +37,11 @@ def login():
         try:
             user = User.query.filter_by(email=form.email.data).first()
             email = user.email
-            password = user.password
         except AttributeError:
             flash('Invalid login!', category='warning')
-            return redirect(url_for('login'))
+            return redirect(url_for('auth.login'))
 
-        if form.email.data == email and bcrypt.check_password_hash(password, form.password.data):
+        if form.email.data == email and user.verify_password(form.password.data):
             login_user(user, remember=form.remember.data)
             flash(f'Logged in by username {user.username}!', category='success')
             return redirect(url_for('about'))

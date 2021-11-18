@@ -20,7 +20,7 @@ class User(db.Model, UserMixin):
     def __init__(self, username, email, password, image_file='default.jpg'):
         self.username = username
         self.email = email
-        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
+        self.password = bcrypt.generate_password_hash(password)
         self.image_file = image_file
 
     def verify_password(self, pwd):

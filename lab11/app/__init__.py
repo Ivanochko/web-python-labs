@@ -46,7 +46,7 @@ login_manager.login_view = 'auth.login'
 login_manager.login_message_category = 'warning'
 
 
-def create_app(config_name = 'config'):
+def create_app(config_name='default'):
     """Construct the core application."""
     app = Flask(__name__)
     app.config.from_object(config.get(config_name))
