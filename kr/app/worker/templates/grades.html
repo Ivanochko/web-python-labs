@@ -1,0 +1,28 @@
+{% from "_render_field.html" import render_field %}
+{% extends 'parent.html' %}
+
+{% block title %}
+Grades
+{% endblock %}
+
+{% block content %}
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='styles/worker.css') }}">
+
+<div class="grades_container row">
+    <form method="POST">
+        <div class="form-group">
+            {{ render_field(form.name, class='form-control') }}
+        </div>
+        <div class="form-group">
+            {{ render_field(form.submit, value='Create new!', class='btn btn-primary') }}
+        </div>
+    </form>
+    <ul style="margin: 10px" class="w-75"> All grades
+        {% for grade in grades %}
+        <li>
+            {{ grade.name }}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
