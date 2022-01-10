@@ -26,7 +26,6 @@ Mako==1.1.5
 MarkupSafe==2.0.1
 Pillow==8.1.0
 pycparser==2.20
-pygame==2.0.1
 PyJWT==2.3.0
 pyswip==0.2.10
 pytz==2021.3
